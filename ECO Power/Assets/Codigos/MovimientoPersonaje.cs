@@ -14,9 +14,14 @@ public class MovimientoPersonaje : MonoBehaviour
     private float velocidadGiro;
     private float fuerzaGravedad = 0;
 
+    private Vector3 posicionIncial;
+    private Quaternion rotacionIncial;
+
     private CharacterController controladorCuerpo;
     void Start()
     {
+        posicionIncial = transform.position;
+        rotacionIncial = transform.rotation;
         controladorCuerpo = GetComponent<CharacterController>();
     }
    
@@ -50,5 +55,19 @@ public class MovimientoPersonaje : MonoBehaviour
         }
         
         controladorCuerpo.Move(new Vector3(0, fuerzaGravedad, 0) * Time.deltaTime);
+    }
+
+    public void CambiarUbicacion(Transform ubicacion)
+    {
+        posicionIncial = ubicacion.position;
+        rotacionIncial = ubicacion.rotation;
+    }
+    public void Reiniciar()
+    {
+        controladorCuerpo.Move(Vector3.zero);
+        controladorCuerpo.enabled = false;
+        transform.position = posicionIncial;
+        transform.rotation = rotacionIncial;
+        controladorCuerpo.enabled = true;
     }
 }
